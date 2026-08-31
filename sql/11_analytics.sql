@@ -3,8 +3,8 @@ USE DATABASE CLICKSTREAM_DB;
 USE SCHEMA CLICKSTREAM;
 
 
-==========================
-1. Overall Conversion Rate
+-- ==========================
+-- 1. Overall Conversion Rate
 SELECT
 
 ROUND(
@@ -26,8 +26,8 @@ COUNT_IF(event_type='HOME_PAGE'),
 ) AS conversion_rate_percentage
 
 FROM silver_clickstream;
---------
-2. Cart Abandonment Rate
+-- --------
+-- 2. Cart Abandonment Rate
 SELECT
 
 ROUND(
@@ -36,7 +36,7 @@ ROUND(
 
 COUNT_IF(event_type='ADD_TO_CART')
 
--
+-- -
 
 COUNT_IF(event_type='PURCHASE')
 
@@ -58,8 +58,8 @@ COUNT_IF(event_type='ADD_TO_CART'),
 AS cart_abandonment_rate
 
 FROM silver_clickstream;
------------
-3. Funnel Analysis
+-- -----------
+-- 3. Funnel Analysis
 SELECT
 
 COUNT_IF(event_type='HOME_PAGE')
@@ -81,8 +81,8 @@ COUNT_IF(event_type='PURCHASE')
 AS purchases
 
 FROM silver_clickstream;
-------------------
-4. Top Purchased Products
+-- ------------------
+-- 4. Top Purchased Products
 SELECT
 
 product_id,
@@ -98,7 +98,7 @@ GROUP BY product_id
 ORDER BY purchases DESC
 
 LIMIT 20;
-5. Most Viewed Products
+-- 5. Most Viewed Products
 SELECT
 
 product_id,
@@ -114,7 +114,7 @@ GROUP BY product_id
 ORDER BY views DESC
 
 LIMIT 20;
-6. Product Conversion Rate
+-- 6. Product Conversion Rate
 SELECT
 
 product_id,
@@ -152,7 +152,7 @@ FROM silver_clickstream
 GROUP BY product_id
 
 ORDER BY conversion_rate DESC;
-7. Top Countries
+-- 7. Top Countries
 SELECT
 
 country,
@@ -164,7 +164,7 @@ FROM silver_clickstream
 GROUP BY country
 
 ORDER BY total_events DESC;
-8. Top Purchasing Countries
+-- 8. Top Purchasing Countries
 SELECT
 
 country,
@@ -178,7 +178,7 @@ WHERE event_type='PURCHASE'
 GROUP BY country
 
 ORDER BY purchases DESC;
-9. Device Analytics
+-- 9. Device Analytics
 SELECT
 
 device_type,
@@ -190,7 +190,7 @@ FROM silver_clickstream
 GROUP BY device_type
 
 ORDER BY total_events DESC;
-10. Device Conversion Analysis
+-- 10. Device Conversion Analysis
 SELECT
 
 device_type,
@@ -226,7 +226,7 @@ event_type='HOME_PAGE'
 FROM silver_clickstream
 
 GROUP BY device_type;
-11. Average Session Duration
+-- 11. Average Session Duration
 SELECT
 
 ROUND(
@@ -240,7 +240,7 @@ session_duration_seconds
 ) avg_session_duration_seconds
 
 FROM gold_session_analytics;
-12. Longest Sessions
+-- 12. Longest Sessions
 SELECT
 
 session_id,
@@ -254,7 +254,7 @@ FROM gold_session_analytics
 ORDER BY session_duration_seconds DESC
 
 LIMIT 20;
-13. Daily Traffic Trend
+-- 13. Daily Traffic Trend
 SELECT
 
 DATE(event_time) event_date,
@@ -266,7 +266,7 @@ FROM silver_clickstream
 GROUP BY DATE(event_time)
 
 ORDER BY event_date;
-14. Daily Purchase Trend
+-- 14. Daily Purchase Trend
 SELECT
 
 DATE(event_time) event_date,
@@ -280,7 +280,7 @@ WHERE event_type='PURCHASE'
 GROUP BY DATE(event_time)
 
 ORDER BY event_date;
-15. Most Active Customers
+-- 15. Most Active Customers
 SELECT
 
 user_id,
@@ -295,7 +295,7 @@ ORDER BY total_events DESC
 
 LIMIT 20;
 
-16. Customers With Highest Purchases
+-- 16. Customers With Highest Purchases
 SELECT
 
 user_id,
@@ -311,7 +311,7 @@ GROUP BY user_id
 ORDER BY purchases DESC
 
 LIMIT 20;
-17. Session Distribution
+-- 17. Session Distribution
 SELECT
 
 CASE
@@ -336,7 +336,7 @@ FROM gold_session_analytics
 GROUP BY duration_bucket
 
 ORDER BY sessions DESC;
-18. Product Funnel
+-- 18. Product Funnel
 SELECT
 
 product_id,
@@ -356,9 +356,9 @@ event_type='PURCHASE'
 FROM silver_clickstream
 
 GROUP BY product_id;
-19. Revenue Analytics
+-- 19. Revenue Analytics
 
-(assuming generator contains product prices)
+-- (assuming generator contains product prices)
 
 SELECT
 
@@ -371,7 +371,7 @@ AS avg_order_value
 FROM silver_clickstream
 
 WHERE event_type='PURCHASE';
-20. Executive KPI Dashboard Query
+-- 20. Executive KPI Dashboard Query
 SELECT
 
 COUNT(DISTINCT user_id)
@@ -393,4 +393,4 @@ COUNT_IF(event_type='CHECKOUT')
 AS total_checkouts
 
 FROM silver_clickstream;
-==========================
+-- ==========================
